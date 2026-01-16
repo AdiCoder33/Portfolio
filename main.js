@@ -113,7 +113,7 @@ setTimeout(() => {
 // SCROLL REVEAL ANIMATIONS
 // ========================================
 const revealElements = document.querySelectorAll(
-    '.home-container, .about-container, .projects-container, .achievements-container, .services-container, .contact-content'
+    '.home-container, .about-container, .projects-container, .achievements-container, .services-container, .contact-container'
 );
 
 function reveal() {
@@ -160,6 +160,7 @@ backToTopBtn.addEventListener('click', () => {
 const projectCards = document.querySelectorAll('.project-card');
 const skillCards = document.querySelectorAll('.c1');
 const serviceCards = document.querySelectorAll('.service-card');
+const achievementCards = document.querySelectorAll('.achievement-card');
 
 // Project Cards Hover
 projectCards.forEach(card => {
@@ -194,25 +195,57 @@ serviceCards.forEach(card => {
     });
 });
 
+// Achievement Cards Hover
+achievementCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px) scale(1.02)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) scale(1)';
+    });
+});
+
 // ========================================
-// FORM SUBMISSION HANDLER (Optional)
-// ========================================
-const contactForm = document.querySelector('.contact-form');
+// EMAILJS FORM SUBMISSION
+// ======================================== 
+// Initialize EmailJS with your Public Key
+(function() {
+    emailjs.init("1ewkjiNtyXHZa_U-b");
+})();
+
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
-    // Get form values
-    const name = contactForm.querySelector('input[type="text"]').value;
-    const email = contactForm.querySelector('input[type="email"]').value;
-    const message = contactForm.querySelector('textarea').value;
+    // Show loading message
+    formStatus.style.display = 'block';
+    formStatus.textContent = 'Sending...';
+    formStatus.style.color = 'var(--purple-primary)';
     
-    // Here you would typically send the form data to a server
-    // For now, we'll just show an alert
-    alert(`Thank you ${name}! Your message has been sent. We'll get back to you at ${email} soon.`);
-    
-    // Reset form
-    contactForm.reset();
+    // Send email using EmailJS
+    emailjs.sendForm(
+        'service_fq71jzq',
+        'template_wl6tuf9',
+        contactForm
+    )
+    .then(() => {
+        formStatus.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
+        formStatus.style.color = '#10b981';
+        contactForm.reset();
+        
+        // Hide status after 5 seconds
+        setTimeout(() => {
+            formStatus.style.display = 'none';
+        }, 5000);
+    })
+    .catch((error) => {
+        formStatus.textContent = '✗ Failed to send message. Please try again or email directly.';
+        formStatus.style.color = '#ef4444';
+        console.error('EmailJS Error:', error);
+    });
 });
 
 // ========================================

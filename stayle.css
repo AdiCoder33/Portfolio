@@ -445,7 +445,7 @@ header {
    ABOUT SECTION
    ======================================== */
 #about {
-    margin: 160px 200px;
+    margin: 160px 0 160px 200px;
     background: var(--bg-primary);
 }
 
@@ -551,13 +551,14 @@ header {
 }
 
 .about-right img {
-    width: 400px;
-    height: 400px;
-    border-radius: 15px;
-    border: 2px solid var(--purple-primary);
-    box-shadow: 0 0 30px rgba(147, 51, 234, 0.3);
+    width: 600px;
+    height: 600px;
+    border-radius: 15px 0 0 15px;
+    border: 0px solid var(--purple-primary);
+    border-right: none;
+    box-shadow: 0 0 0px rgba(147, 51, 234, 0.3);
     position: relative;
-    bottom: -85px;
+    bottom: 80px;
 }
 
 /* ========================================
@@ -709,7 +710,7 @@ header {
     transition: all 0.6s ease-out;
 }
 
-.achievements-container.show {
+.achievements-container.reveal {
     opacity: 1;
     transform: translateY(0);
 }
@@ -731,14 +732,6 @@ header {
     overflow: hidden;
     transition: all 0.4s ease;
     border: 1px solid rgba(147, 51, 234, 0.2);
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.5s ease;
-}
-
-.achievement-card.show {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .achievement-card::before {

@@ -98,10 +98,10 @@
                     </div>
                     
                     <div class="action-buttons">
-                        <a href="mailto:yerrabothuadithya183@gmail.com" class="btn-hire" style="text-decoration: none;">
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=yerrabothuadithya183@gmail.com" target="_blank" class="btn-hire" style="text-decoration: none;">
                             <i class="fas fa-envelope"></i> Contact Me
                         </a>
-                        <a href="path/to/Adithya_Yerrabothu_Resume.pdf" download class="btn-cv" style="text-decoration: none;">
+                        <a href="Adithya - Resume.pdf" download class="btn-cv" style="text-decoration: none;">
                             <i class="fas fa-download"></i> Download Resume
                         </a>
                     </div>
@@ -113,7 +113,7 @@
                         <a href="https://github.com/AdiCoder33" target="_blank">
                             <i class="fab fa-github"></i> GitHub
                         </a>
-                        <a href="https://linkedin.com/in/yerrabothuadithya183" target="_blank">
+                        <a href="https://linkedin.com/in/adithyayerrabothu" target="_blank">
                             <i class="fab fa-linkedin"></i> LinkedIn
                         </a>
                         <a href="mailto:yerrabothuadithya183@gmail.com">
@@ -126,7 +126,7 @@
                 </div>
                 
                 <div class="home-image">
-                    <img src="images/adithya-profile.jpg" alt="Adithya Yerrabothu">
+                    <img src="images\Adi Photo.jpg" alt="Adithya Yerrabothu">
                 </div>
             </div>
         </section>
@@ -179,7 +179,7 @@
                         </div>
                         
                         <div class="about-right">
-                            <img src="images/adithya-about.jpg" alt="Adithya Yerrabothu - Developer">
+                            <img src="images\Adiabout.png" alt="Adithya Yerrabothu - Developer">
                         </div>
                     </div>
                 </div>
@@ -448,12 +448,13 @@
                     </div>
                     
                     <div class="contact-right">
-                        <form class="contact-form">
-                            <input type="text" placeholder="Your Name" required>
-                            <input type="email" placeholder="Your Email" required>
-                            <textarea rows="5" placeholder="Your Message" required></textarea>
+                        <form class="contact-form" id="contact-form">
+                            <input type="text" name="from_name" placeholder="Your Name" required>
+                            <input type="email" name="from_email" placeholder="Your Email" required>
+                            <textarea rows="5" name="message" placeholder="Your Message" required></textarea>
                             <button type="submit" class="btn-submit">Send Message</button>
                         </form>
+                        <p id="form-status" style="margin-top: 15px; text-align: center; color: var(--purple-primary); display: none;"></p>
                     </div>
                 </div>
             </div>
@@ -496,6 +497,7 @@
     </div>
 
     <!-- Custom JavaScript -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
