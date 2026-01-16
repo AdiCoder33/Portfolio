@@ -1,0 +1,244 @@
+// ========================================
+// LOADING SCREEN ANIMATION
+// ========================================
+window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    const mainPage = document.getElementById('main-page');
+    
+    // Hide loading screen after 4 seconds
+    setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+        mainPage.classList.add('visible');
+    }, 4000);
+});
+
+// ========================================
+// SMOOTH SCROLL NAVIGATION
+// ========================================
+const navLinks = document.querySelectorAll('.nav-link');
+
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+            const offsetTop = targetSection.offsetTop - 80; // 80px offset for fixed header
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// ========================================
+// ACTIVE SECTION HIGHLIGHTING
+// ========================================
+window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('section');
+    const scrollPosition = window.scrollY + 100; // 100px trigger offset
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${sectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+});
+
+// ========================================
+// TYPING EFFECT
+// ========================================
+const typingText = document.querySelector('.typing-text');
+const texts = [
+    'Full-Stack MERN Developer',
+    'Flutter Developer',
+    'React Native Developer',
+    'Robotics Engineer',
+    'AI/ML Enthusiast'
+];
+
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typingSpeed = 100; // 100ms per character
+let deletingSpeed = 50; // 50ms per character
+
+function type() {
+    const currentText = texts[textIndex];
+    
+    if (isDeleting) {
+        // Deleting characters
+        typingText.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+        typingSpeed = deletingSpeed;
+        
+        if (charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+            typingSpeed = 500; // Pause before typing next word
+        }
+    } else {
+        // Typing characters
+        typingText.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
+        typingSpeed = 100;
+        
+        if (charIndex === currentText.length) {
+            isDeleting = true;
+            typingSpeed = 1000; // 1-second pause when complete
+        }
+    }
+    
+    setTimeout(type, typingSpeed);
+}
+
+// Start typing effect after loading screen
+setTimeout(() => {
+    type();
+}, 4000);
+
+// ========================================
+// SCROLL REVEAL ANIMATIONS
+// ========================================
+const revealElements = document.querySelectorAll(
+    '.home-container, .about-container, .projects-container, .achievements-container, .services-container, .contact-content'
+);
+
+function reveal() {
+    revealElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        const revealPoint = 150; // 150px before element enters viewport
+        
+        if (elementTop < windowHeight - revealPoint) {
+            element.classList.add('reveal');
+        }
+    });
+}
+
+window.addEventListener('scroll', reveal);
+// Initial check on page load
+setTimeout(() => {
+    reveal();
+}, 4100);
+
+// ========================================
+// BACK TO TOP BUTTON
+// ========================================
+const backToTopBtn = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+        backToTopBtn.classList.add('show');
+    } else {
+        backToTopBtn.classList.remove('show');
+    }
+});
+
+backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// ========================================
+// CARD HOVER ANIMATIONS
+// ========================================
+const projectCards = document.querySelectorAll('.project-card');
+const skillCards = document.querySelectorAll('.c1');
+const serviceCards = document.querySelectorAll('.service-card');
+
+// Project Cards Hover
+projectCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-8px) scale(1.05)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) scale(1)';
+    });
+});
+
+// Skill Cards Hover
+skillCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-8px) scale(1.05)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) scale(1)';
+    });
+});
+
+// Service Cards Hover
+serviceCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-8px) scale(1.05)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) scale(1)';
+    });
+});
+
+// ========================================
+// FORM SUBMISSION HANDLER (Optional)
+// ========================================
+const contactForm = document.querySelector('.contact-form');
+
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Get form values
+    const name = contactForm.querySelector('input[type="text"]').value;
+    const email = contactForm.querySelector('input[type="email"]').value;
+    const message = contactForm.querySelector('textarea').value;
+    
+    // Here you would typically send the form data to a server
+    // For now, we'll just show an alert
+    alert(`Thank you ${name}! Your message has been sent. We'll get back to you at ${email} soon.`);
+    
+    // Reset form
+    contactForm.reset();
+});
+
+// ========================================
+// FOOTER NAVIGATION SMOOTH SCROLL
+// ========================================
+const footerLinks = document.querySelectorAll('.footer-nav a');
+
+footerLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+            const offsetTop = targetSection.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// ========================================
+// PREVENT HORIZONTAL SCROLL
+// ========================================
+document.body.style.overflowX = 'hidden';
+document.documentElement.style.overflowX = 'hidden';
