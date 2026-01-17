@@ -134,6 +134,9 @@ window.addEventListener('load', () => {
         createServicesDots();
         updateCenterServiceCard();
         startServicesAutoScroll();
+        createAchievementsDots();
+        updateCenterAchievementCard();
+        startAchievementsAutoScroll();
     }, 100);
 });
 
@@ -150,8 +153,12 @@ window.addEventListener('resize', () => {
     createServicesDots();
     updateCenterServiceCard();
     stopServicesAutoScroll();
+    createAchievementsDots();
+    updateCenterAchievementCard();
+    stopAchievementsAutoScroll();
     if (window.innerWidth <= 768) {
         startServicesAutoScroll();
+        startAchievementsAutoScroll();
     }
 });
 
@@ -287,6 +294,137 @@ if (servicesGrid) {
             servicesUserInteracted = false;
             startServicesAutoScroll();
         }, 5000); // Restart after 5 seconds of inactivity
+    });
+}
+
+// ========================================
+// MOBILE ACHIEVEMENTS CAROUSEL
+// ========================================
+function updateCenterAchievementCard() {
+    if (window.innerWidth <= 768) {
+        const achievementsGrid = document.querySelector('.achievements-grid');
+        const achievementCards = document.querySelectorAll('.achievement-card');
+        
+        if (achievementsGrid && achievementCards.length > 0) {
+            const scrollLeft = achievementsGrid.scrollLeft;
+            const containerCenter = scrollLeft + achievementsGrid.offsetWidth / 2;
+            
+            let activeIndex = 0;
+            
+            achievementCards.forEach((card, index) => {
+                const cardLeft = card.offsetLeft;
+                const cardCenter = cardLeft + card.offsetWidth / 2;
+                const distance = Math.abs(containerCenter - cardCenter);
+                
+                if (distance < card.offsetWidth / 2) {
+                    card.classList.add('center-card');
+                    activeIndex = index;
+                } else {
+                    card.classList.remove('center-card');
+                }
+            });
+            
+            updateAchievementsDots(activeIndex);
+        }
+    }
+}
+
+function createAchievementsDots() {
+    if (window.innerWidth <= 768) {
+        const dotsContainer = document.querySelector('.achievements-dots');
+        const achievementCards = document.querySelectorAll('.achievement-card');
+        
+        if (dotsContainer && achievementCards.length > 0) {
+            dotsContainer.innerHTML = '';
+            
+            achievementCards.forEach((card, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                
+                dot.addEventListener('click', () => {
+                    scrollToAchievementCard(index);
+                });
+                
+                dotsContainer.appendChild(dot);
+            });
+        }
+    }
+}
+
+function updateAchievementsDots(activeIndex) {
+    const dots = document.querySelectorAll('.achievements-dots .dot');
+    dots.forEach((dot, index) => {
+        if (index === activeIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+function scrollToAchievementCard(index) {
+    const achievementsGrid = document.querySelector('.achievements-grid');
+    const achievementCards = document.querySelectorAll('.achievement-card');
+    
+    if (achievementsGrid && achievementCards[index]) {
+        const card = achievementCards[index];
+        const scrollPosition = card.offsetLeft - (achievementsGrid.offsetWidth - card.offsetWidth) / 2;
+        
+        achievementsGrid.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// Auto-scroll for achievements carousel (mobile only)
+let achievementsAutoScrollInterval;
+let currentAchievementIndex = 0;
+let achievementsUserInteracted = false;
+
+function startAchievementsAutoScroll() {
+    if (window.innerWidth <= 768) {
+        const achievementCards = document.querySelectorAll('.achievement-card');
+        
+        if (achievementCards.length > 0) {
+            achievementsAutoScrollInterval = setInterval(() => {
+                if (!achievementsUserInteracted) {
+                    currentAchievementIndex = (currentAchievementIndex + 1) % achievementCards.length;
+                    scrollToAchievementCard(currentAchievementIndex);
+                }
+            }, 2000);
+        }
+    }
+}
+
+function stopAchievementsAutoScroll() {
+    if (achievementsAutoScrollInterval) {
+        clearInterval(achievementsAutoScrollInterval);
+        achievementsAutoScrollInterval = null;
+    }
+}
+
+// Pause auto-scroll on user interaction
+const achievementsGrid = document.querySelector('.achievements-grid');
+if (achievementsGrid) {
+    achievementsGrid.addEventListener('touchstart', () => {
+        achievementsUserInteracted = true;
+        stopAchievementsAutoScroll();
+    });
+    
+    achievementsGrid.addEventListener('scroll', updateCenterAchievementCard);
+}
+
+// Restart auto-scroll after user stops interacting
+let achievementsIdleTimeout;
+if (achievementsGrid) {
+    achievementsGrid.addEventListener('touchend', () => {
+        clearTimeout(achievementsIdleTimeout);
+        achievementsIdleTimeout = setTimeout(() => {
+            achievementsUserInteracted = false;
+            startAchievementsAutoScroll();
+        }, 5000);
     });
 }
 

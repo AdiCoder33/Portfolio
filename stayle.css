@@ -768,6 +768,15 @@ header {
     width: 100%;
 }
 
+.achievements-scroll-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.achievements-dots {
+    display: none;
+}
+
 .achievement-card {
     background: var(--bg-secondary);
     padding: 50px 40px;
