@@ -13,6 +13,47 @@ window.addEventListener('load', () => {
 });
 
 // ========================================
+// MOBILE PROJECTS CAROUSEL CENTER HIGHLIGHT
+// ========================================
+function updateCenterCard() {
+    if (window.innerWidth <= 768) {
+        const projectsGrid = document.querySelector('.projects-grid');
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        if (projectsGrid && projectCards.length > 0) {
+            const scrollLeft = projectsGrid.scrollLeft;
+            const containerCenter = scrollLeft + projectsGrid.offsetWidth / 2;
+            
+            projectCards.forEach(card => {
+                const cardLeft = card.offsetLeft;
+                const cardCenter = cardLeft + card.offsetWidth / 2;
+                const distance = Math.abs(containerCenter - cardCenter);
+                
+                if (distance < card.offsetWidth / 2) {
+                    card.classList.add('center-card');
+                } else {
+                    card.classList.remove('center-card');
+                }
+            });
+        }
+    }
+}
+
+// Initialize on load
+window.addEventListener('load', () => {
+    setTimeout(updateCenterCard, 100);
+});
+
+// Update on scroll
+const projectsGrid = document.querySelector('.projects-grid');
+if (projectsGrid) {
+    projectsGrid.addEventListener('scroll', updateCenterCard);
+}
+
+// Update on window resize
+window.addEventListener('resize', updateCenterCard);
+
+// ========================================
 // MOBILE NAVIGATION DROPDOWN
 // ========================================
 const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
