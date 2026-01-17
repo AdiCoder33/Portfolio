@@ -1539,8 +1539,8 @@ footer {
         flex-direction: row;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        gap: 20px;
-        padding: 10px 20px;
+        gap: 15px;
+        padding: 10px 5px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
