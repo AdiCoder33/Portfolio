@@ -1243,6 +1243,71 @@ footer {
     }
 }
 
+/* Mobile Navigation Dropdown */
+.nav-dropdown {
+    position: relative;
+    display: none;
+}
+
+.nav-dropdown-toggle {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    padding: 5px 6px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.nav-dropdown-toggle:hover {
+    color: var(--primary-color);
+    background: rgba(147, 51, 234, 0.1);
+}
+
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgba(10, 10, 10, 0.98);
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    border-radius: 12px;
+    padding: 8px;
+    margin-top: 8px;
+    box-shadow: 0 4px 20px rgba(147, 51, 234, 0.4);
+    backdrop-filter: blur(10px);
+    min-width: 150px;
+    z-index: 1001;
+    list-style: none;
+}
+
+.nav-dropdown-menu.active {
+    display: block;
+}
+
+.nav-dropdown-menu li {
+    margin: 0;
+}
+
+.nav-dropdown-menu .nav-link {
+    padding: 8px 10px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.nav-desktop-only {
+    display: block;
+}
+
 /* Mobile (≤768px) */
 @media (max-width: 768px) {
     header {
@@ -1318,8 +1383,12 @@ footer {
         color: var(--text-primary);
     }
     
-    /* Hide Contact nav item in mobile */
-    header nav ul li:last-child {
+    /* Show dropdown in mobile, hide desktop items */
+    .nav-dropdown {
+        display: block;
+    }
+    
+    .nav-desktop-only {
         display: none;
     }
     

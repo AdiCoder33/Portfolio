@@ -13,6 +13,34 @@ window.addEventListener('load', () => {
 });
 
 // ========================================
+// MOBILE NAVIGATION DROPDOWN
+// ========================================
+const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
+const dropdownMenu = document.querySelector('.nav-dropdown-menu');
+
+if (dropdownToggle && dropdownMenu) {
+    dropdownToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.nav-dropdown')) {
+            dropdownMenu.classList.remove('active');
+        }
+    });
+
+    // Close dropdown when clicking on a link
+    const dropdownLinks = dropdownMenu.querySelectorAll('.nav-link');
+    dropdownLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            dropdownMenu.classList.remove('active');
+        });
+    });
+}
+
+// ========================================
 // SMOOTH SCROLL NAVIGATION
 // ========================================
 const navLinks = document.querySelectorAll('.nav-link');
