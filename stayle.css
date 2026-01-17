@@ -1289,6 +1289,10 @@ footer {
         min-width: 100%;
     }
     
+    .about-right img {
+        display: none;
+    }
+    
     .projects-grid,
     .services-grid {
         grid-template-columns: 1fr;
