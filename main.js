@@ -24,24 +24,114 @@ function updateCenterCard() {
             const scrollLeft = projectsGrid.scrollLeft;
             const containerCenter = scrollLeft + projectsGrid.offsetWidth / 2;
             
-            projectCards.forEach(card => {
+            let activeIndex = 0;
+            
+            projectCards.forEach((card, index) => {
                 const cardLeft = card.offsetLeft;
                 const cardCenter = cardLeft + card.offsetWidth / 2;
                 const distance = Math.abs(containerCenter - cardCenter);
                 
                 if (distance < card.offsetWidth / 2) {
                     card.classList.add('center-card');
+                    activeIndex = index;
                 } else {
                     card.classList.remove('center-card');
                 }
+            });
+            
+            // Update dots
+            updateDots(activeIndex);
+        }
+    }
+}
+
+// Create dots indicator
+function createDots() {
+    if (window.innerWidth <= 768) {
+        const dotsContainer = document.querySelector('.projects-dots');
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        if (dotsContainer && projectCards.length > 0) {
+            dotsContainer.innerHTML = '';
+            
+            projectCards.forEach((card, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                
+                dot.addEventListener('click', () => {
+                    scrollToCard(index);
+                });
+                
+                dotsContainer.appendChild(dot);
             });
         }
     }
 }
 
+// Update active dot
+function updateDots(activeIndex) {
+    const dots = document.querySelectorAll('.projects-dots .dot');
+    dots.forEach((dot, index) => {
+        if (index === activeIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+// Scroll to specific card
+function scrollToCard(index) {
+    const projectsGrid = document.querySelector('.projects-grid');
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    if (projectsGrid && projectCards[index]) {
+        const card = projectCards[index];
+        const scrollPosition = card.offsetLeft - (projectsGrid.offsetWidth - card.offsetWidth) / 2;
+        
+        projectsGrid.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// Navigation arrows
+function initProjectNavigation() {
+    const leftArrow = document.querySelector('.project-nav-left');
+    const rightArrow = document.querySelector('.project-nav-right');
+    const projectsGrid = document.querySelector('.projects-grid');
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    if (leftArrow && rightArrow && projectsGrid && projectCards.length > 0) {
+        leftArrow.addEventListener('click', () => {
+            const currentScroll = projectsGrid.scrollLeft;
+            const cardWidth = projectCards[0].offsetWidth + 20; // card width + gap
+            projectsGrid.scrollBy({
+                left: -cardWidth,
+                behavior: 'smooth'
+            });
+        });
+        
+        rightArrow.addEventListener('click', () => {
+            const currentScroll = projectsGrid.scrollLeft;
+            const cardWidth = projectCards[0].offsetWidth + 20; // card width + gap
+            projectsGrid.scrollBy({
+                left: cardWidth,
+                behavior: 'smooth'
+            });
+        });
+    }
+}
+
 // Initialize on load
 window.addEventListener('load', () => {
-    setTimeout(updateCenterCard, 100);
+    setTimeout(() => {
+        createDots();
+        updateCenterCard();
+        initProjectNavigation();
+    }, 100);
 });
 
 // Update on scroll
@@ -51,7 +141,10 @@ if (projectsGrid) {
 }
 
 // Update on window resize
-window.addEventListener('resize', updateCenterCard);
+window.addEventListener('resize', () => {
+    createDots();
+    updateCenterCard();
+});
 
 // ========================================
 // MOBILE NAVIGATION DROPDOWN

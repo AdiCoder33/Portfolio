@@ -648,6 +648,14 @@ header {
     position: relative;
 }
 
+.project-nav-arrow {
+    display: none;
+}
+
+.projects-dots {
+    display: none;
+}
+
 .project-card {
     background: var(--bg-secondary);
     padding: 20px;
@@ -1506,6 +1514,68 @@ footer {
         min-width: 100%;
     }
     
+    .project-nav-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background: rgba(147, 51, 234, 0.9);
+        border: none;
+        border-radius: 50%;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 4px 15px rgba(147, 51, 234, 0.4);
+        transition: all 0.3s ease;
+    }
+    
+    .project-nav-arrow:hover {
+        background: rgba(168, 85, 247, 1);
+        box-shadow: 0 6px 20px rgba(147, 51, 234, 0.6);
+        transform: translateY(-50%) scale(1.1);
+    }
+    
+    .project-nav-arrow:active {
+        transform: translateY(-50%) scale(0.95);
+    }
+    
+    .project-nav-left {
+        left: 13px;
+    }
+    
+    .project-nav-right {
+        right: 10px;
+    }
+    
+    .projects-dots {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        padding: 10px;
+    }
+    
+    .projects-dots .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(147, 51, 234, 0.3);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .projects-dots .dot.active {
+        background: var(--purple-primary);
+        width: 24px;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(147, 51, 234, 0.6);
+    }
+    
     .projects-grid {
         display: flex;
         flex-direction: row;
@@ -1523,7 +1593,7 @@ footer {
     
     .project-card {
         flex: 0 0 92%;
-        max-width: 95%;
+        max-width: 98%;
         scroll-snap-align: center;
         opacity: 0.5;
         transform: scale(0.9);
