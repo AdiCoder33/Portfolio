@@ -1248,12 +1248,32 @@ footer {
         font-size: 32px;
     }
     
-    .action-buttons {
+    .info-row {
         flex-direction: column;
+        gap: 0.8rem;
+        align-items: flex-start;
     }
     
-    .action-buttons button {
-        width: 100%;
+    .action-buttons {
+        flex-direction: row;
+        gap: 1rem;
+    }
+    
+    .action-buttons a {
+        flex: 1;
+        text-align: center;
+    }
+    
+    .social-links a {
+        font-size: 0;
+    }
+    
+    .social-links a i {
+        font-size: 24px;
+    }
+    
+    .social-links .follow-label {
+        font-size: 14px;
     }
     
     .social-links {
