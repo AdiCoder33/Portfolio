@@ -131,6 +131,9 @@ window.addEventListener('load', () => {
         createDots();
         updateCenterCard();
         initProjectNavigation();
+        createServicesDots();
+        updateCenterServiceCard();
+        startServicesAutoScroll();
     }, 100);
 });
 
@@ -144,7 +147,148 @@ if (projectsGrid) {
 window.addEventListener('resize', () => {
     createDots();
     updateCenterCard();
+    createServicesDots();
+    updateCenterServiceCard();
+    stopServicesAutoScroll();
+    if (window.innerWidth <= 768) {
+        startServicesAutoScroll();
+    }
 });
+
+// ========================================
+// MOBILE SERVICES CAROUSEL CENTER HIGHLIGHT
+// ========================================
+function updateCenterServiceCard() {
+    if (window.innerWidth <= 768) {
+        const servicesGrid = document.querySelector('.services-grid');
+        const serviceCards = document.querySelectorAll('.service-card');
+        
+        if (servicesGrid && serviceCards.length > 0) {
+            const scrollLeft = servicesGrid.scrollLeft;
+            const containerCenter = scrollLeft + servicesGrid.offsetWidth / 2;
+            
+            let activeIndex = 0;
+            
+            serviceCards.forEach((card, index) => {
+                const cardLeft = card.offsetLeft;
+                const cardCenter = cardLeft + card.offsetWidth / 2;
+                const distance = Math.abs(containerCenter - cardCenter);
+                
+                if (distance < card.offsetWidth / 2) {
+                    card.classList.add('center-card');
+                    activeIndex = index;
+                } else {
+                    card.classList.remove('center-card');
+                }
+            });
+            
+            // Update dots
+            updateServicesDots(activeIndex);
+        }
+    }
+}
+
+// Create dots indicator for services
+function createServicesDots() {
+    if (window.innerWidth <= 768) {
+        const dotsContainer = document.querySelector('.services-dots');
+        const serviceCards = document.querySelectorAll('.service-card');
+        
+        if (dotsContainer && serviceCards.length > 0) {
+            dotsContainer.innerHTML = '';
+            
+            serviceCards.forEach((card, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                
+                dot.addEventListener('click', () => {
+                    scrollToServiceCard(index);
+                });
+                
+                dotsContainer.appendChild(dot);
+            });
+        }
+    }
+}
+
+// Update active dot for services
+function updateServicesDots(activeIndex) {
+    const dots = document.querySelectorAll('.services-dots .dot');
+    dots.forEach((dot, index) => {
+        if (index === activeIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+// Scroll to specific service card
+function scrollToServiceCard(index) {
+    const servicesGrid = document.querySelector('.services-grid');
+    const serviceCards = document.querySelectorAll('.service-card');
+    
+    if (servicesGrid && serviceCards[index]) {
+        const card = serviceCards[index];
+        const scrollPosition = card.offsetLeft - (servicesGrid.offsetWidth - card.offsetWidth) / 2;
+        
+        servicesGrid.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// Auto-scroll for services carousel (mobile only)
+let servicesAutoScrollInterval;
+let currentServiceIndex = 0;
+let servicesUserInteracted = false;
+
+function startServicesAutoScroll() {
+    if (window.innerWidth <= 768) {
+        const serviceCards = document.querySelectorAll('.service-card');
+        
+        if (serviceCards.length > 0) {
+            servicesAutoScrollInterval = setInterval(() => {
+                if (!servicesUserInteracted) {
+                    currentServiceIndex = (currentServiceIndex + 1) % serviceCards.length;
+                    scrollToServiceCard(currentServiceIndex);
+                }
+            }, 2000);
+        }
+    }
+}
+
+function stopServicesAutoScroll() {
+    if (servicesAutoScrollInterval) {
+        clearInterval(servicesAutoScrollInterval);
+        servicesAutoScrollInterval = null;
+    }
+}
+
+// Pause auto-scroll on user interaction
+const servicesGrid = document.querySelector('.services-grid');
+if (servicesGrid) {
+    servicesGrid.addEventListener('touchstart', () => {
+        servicesUserInteracted = true;
+        stopServicesAutoScroll();
+    });
+    
+    servicesGrid.addEventListener('scroll', updateCenterServiceCard);
+}
+
+// Restart auto-scroll after user stops interacting
+let servicesIdleTimeout;
+if (servicesGrid) {
+    servicesGrid.addEventListener('touchend', () => {
+        clearTimeout(servicesIdleTimeout);
+        servicesIdleTimeout = setTimeout(() => {
+            servicesUserInteracted = false;
+            startServicesAutoScroll();
+        }, 5000); // Restart after 5 seconds of inactivity
+    });
+}
 
 // ========================================
 // MOBILE NAVIGATION DROPDOWN
