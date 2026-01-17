@@ -98,6 +98,10 @@ body {
     color: var(--text-primary);
 }
 
+.loading-name-mobile {
+    display: none;
+}
+
 .loading-content i.fa-laptop-code {
     font-size: 5rem;
     margin-bottom: 20px;
@@ -1418,6 +1422,14 @@ footer {
         border-radius: 50%;
         border: 3px solid var(--purple-primary);
         box-shadow: 0 0 30px rgba(147, 51, 234, 0.4);
+    }
+    
+    .loading-name-desktop {
+        display: none;
+    }
+    
+    .loading-name-mobile {
+        display: block;
     }
     
     .home-content h1 {
