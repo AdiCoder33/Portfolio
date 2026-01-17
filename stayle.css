@@ -1630,6 +1630,63 @@ footer {
         border-color: var(--purple-primary);
     }
     
+    .achievements-dots {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        padding: 10px;
+    }
+    
+    .achievements-dots .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(147, 51, 234, 0.3);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .achievements-dots .dot.active {
+        background: var(--purple-primary);
+        width: 24px;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(147, 51, 234, 0.6);
+    }
+    
+    .achievements-grid {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 15px;
+        padding: 10px 5px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        grid-template-columns: unset;
+        margin-top: 30px;
+    }
+    
+    .achievements-grid::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .achievement-card {
+        flex: 0 0 92%;
+        max-width: 92%;
+        scroll-snap-align: center;
+        opacity: 0.5;
+        transform: scale(0.9);
+        transition: all 0.3s ease;
+    }
+    
+    .achievement-card.center-card {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 15px 40px rgba(147, 51, 234, 0.6);
+        border-color: var(--purple-primary);
+    }
+    
     .contact-content {
         flex-direction: column;
         gap: 30px;
