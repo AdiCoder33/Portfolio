@@ -616,11 +616,19 @@ header {
 }
 
 .section-description {
-    max-width: 700px;
+    max-width: 1000px;
     font-size: 16px;
     color: var(--text-secondary);
     margin-bottom: 50px;
     line-height: 1.8;
+}
+
+.section-description-mobile {
+    display: none;
+}
+
+.section-description-desktop {
+    display: block;
 }
 
 .projects-grid {
@@ -1390,6 +1398,14 @@ footer {
     .social-links {
         flex-wrap: wrap;
         gap: 1rem;
+    }
+    
+    .section-description-desktop {
+        display: none;
+    }
+    
+    .section-description-mobile {
+        display: block;
     }
     
     .about-right img {
